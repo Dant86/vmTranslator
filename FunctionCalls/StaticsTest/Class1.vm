@@ -1,0 +1,5 @@
+function Class1.get 0
+push static 0
+push static 1
+sub
+return
