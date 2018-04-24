@@ -275,19 +275,21 @@ def return_(currFunc, vmFile, line, file, num):
         asmFile.write("M=D\n")
         # *ARG = pop
         asmFile.write("@SP\n")
-        asmFile.write("A=A-1\n")
+        asmFile.write("A=M-1\n")
         asmFile.write("D=M\n")
         asmFile.write("@SP\n")
         asmFile.write("M=M-1\n")
         asmFile.write("@ARG\n")
+        asmFile.write("A=M\n")
         asmFile.write("M=D\n")
         # SP = ARG + 1
+        asmFile.write("@ARG\n")
         asmFile.write("D=M+1\n")
         asmFile.write("@SP\n")
         asmFile.write("M=D\n")
         # THAT = *(frame - 1)
         asmFile.write("@frame\n")
-        asmFile.write("A=A-1\n")
+        asmFile.write("A=M-1\n")
         asmFile.write("D=M\n")
         asmFile.write("@THAT\n")
         asmFile.write("M=D\n")
@@ -295,7 +297,7 @@ def return_(currFunc, vmFile, line, file, num):
         asmFile.write("@2\n")
         asmFile.write("D=A\n")
         asmFile.write("@frame\n")
-        asmFile.write("A=A-D\n")
+        asmFile.write("A=M-D\n")
         asmFile.write("D=M\n")
         asmFile.write("@THIS\n")
         asmFile.write("M=D\n")
@@ -303,7 +305,7 @@ def return_(currFunc, vmFile, line, file, num):
         asmFile.write("@3\n")
         asmFile.write("D=A\n")
         asmFile.write("@frame\n")
-        asmFile.write("A=A-D\n")
+        asmFile.write("A=M-D\n")
         asmFile.write("D=M\n")
         asmFile.write("@ARG\n")
         asmFile.write("M=D\n")
@@ -311,7 +313,7 @@ def return_(currFunc, vmFile, line, file, num):
         asmFile.write("@4\n")
         asmFile.write("D=A\n")
         asmFile.write("@frame\n")
-        asmFile.write("A=A-D\n")
+        asmFile.write("A=M-D\n")
         asmFile.write("D=M\n")
         asmFile.write("@LCL\n")
         asmFile.write("M=D\n")
@@ -344,7 +346,7 @@ cmds = {
 vmDir = sys.argv[1]
 output = sys.argv[2]
 
-with open(sys.argv[2], "a") as asmFile:
+with open(sys.argv[2], "w") as asmFile:
     # set SP to 256
     asmFile.write("@256\n")
     asmFile.write("D=A\n")
