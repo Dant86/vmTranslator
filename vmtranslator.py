@@ -343,6 +343,14 @@ cmds = {
 
 vmDir = sys.argv[1]
 output = sys.argv[2]
+
+with open(sys.argv[2], "a") as asmFile:
+    # set SP to 256
+    asmFile.write("@256\n")
+    asmFile.write("D=A\n")
+    asmFile.write("@SP\n")
+    asmFile.write("M=D\n")
+
 for vmFileName in os.listdir(vmDir):
     print(vmDir + "/" + vmFileName)
     with open(vmDir + "/" + vmFileName, "r", encoding="utf-8") as vmFile:
@@ -359,11 +367,6 @@ for vmFileName in os.listdir(vmDir):
                     currFunc = ""
 
 with open(sys.argv[2], "a") as asmFile:
-    # set SP to 256
-    asmFile.write("@256\n")
-    asmFile.write("D=A\n")
-    asmFile.write("@SP\n")
-    asmFile.write("M=D\n")
     # set LCL, ARG, THIS, THAT to -1
     things = ["LCL", "THIS", "THAT", "ARG"]
     for thing in things:
@@ -373,4 +376,4 @@ with open(sys.argv[2], "a") as asmFile:
     asmFile.write("0;JMP\n")
     asmFile.write("(END)\n")
     asmFile.write("@END\n")
-    asmFile.write("@0;JMP\n")
+    asmFile.write("0;JMP\n")
